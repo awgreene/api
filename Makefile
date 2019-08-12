@@ -18,4 +18,4 @@ codegen:
 	cp scripts/generate_internal_groups.sh vendor/k8s.io/code-generator/generate_internal_groups.sh
 	mkdir -p vendor/k8s.io/code-generator/hack
 	cp boilerplate.go.txt vendor/k8s.io/code-generator/hack/boilerplate.go.txt
-	$(CODEGEN_INTERNAL) deepcopy $(PKG)/pkg/apis $(PKG)/pkg/apis $(PKG)/pkg/apis "operators:v1alpha1,v1"
+	$(CODEGEN_INTERNAL) deepcopy $(PKG)/pkg/apis $(PKG)/pkg/apis $(PKG)/pkg/apis "operators:shared,v1alpha1,v1,v2"
