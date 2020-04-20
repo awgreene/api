@@ -2,6 +2,7 @@ package v1alpha1
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -374,4 +375,12 @@ func helperNewConditions(count int) []ClusterServiceVersionCondition {
 	}
 
 	return conditions
+}
+
+func TestWebhookName(t *testing.T) {
+	webhook := WebhookDescription{
+		Name: "test",
+	}
+	require.True(t, strings.HasPrefix(webhook.GetMutatingWebhook("", nil, []byte{}).Name, "test-"))
+	require.True(t, strings.HasPrefix(webhook.GetValidatingWebhook("", nil, []byte{}).Name, "test-"))
 }

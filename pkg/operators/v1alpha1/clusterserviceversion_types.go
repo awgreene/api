@@ -11,6 +11,7 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	rbac "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apiserver/pkg/storage/names"
 
 	"github.com/operator-framework/api/pkg/lib/version"
 )
@@ -24,6 +25,8 @@ const (
 
 // InstallModeType is a supported type of install mode for CSV installation
 type InstallModeType string
+
+var genName = names.SimpleNameGenerator.GenerateName
 
 const (
 	// InstallModeTypeOwnNamespace indicates that the operator can be a member of an `OperatorGroup` that selects its own namespace.
@@ -182,7 +185,7 @@ type WebhookDescription struct {
 // GetValidatingWebhook returns a ValidatingWebhook generated from the WebhookDescription
 func (w *WebhookDescription) GetValidatingWebhook(namespace string, namespaceSelector *metav1.LabelSelector, caBundle []byte) admissionregistrationv1.ValidatingWebhook {
 	return admissionregistrationv1.ValidatingWebhook{
-		Name:                    w.Name,
+		Name:                    genName(w.Name + "-"),
 		Rules:                   w.Rules,
 		FailurePolicy:           w.FailurePolicy,
 		MatchPolicy:             w.MatchPolicy,
@@ -205,7 +208,7 @@ func (w *WebhookDescription) GetValidatingWebhook(namespace string, namespaceSel
 // GetMutatingWebhook returns a MutatingWebhook generated from the WebhookDescription
 func (w *WebhookDescription) GetMutatingWebhook(namespace string, namespaceSelector *metav1.LabelSelector, caBundle []byte) admissionregistrationv1.MutatingWebhook {
 	return admissionregistrationv1.MutatingWebhook{
-		Name:                    w.Name,
+		Name:                    genName(w.Name + "-"),
 		Rules:                   w.Rules,
 		FailurePolicy:           w.FailurePolicy,
 		MatchPolicy:             w.MatchPolicy,
