@@ -11,6 +11,7 @@ import (
 	appsv1 "k8s.io/api/apps/v1"
 	rbac "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/intstr"
 
 	"github.com/operator-framework/api/pkg/lib/version"
 )
@@ -169,6 +170,7 @@ type WebhookDescription struct {
 	Type                    WebhookAdmissionType                            `json:"type"`
 	DeploymentName          string                                          `json:"deploymentName,omitempty"`
 	ContainerPort           int32                                           `json:"containerPort,omitempty"`
+	TargetPort              *intstr.IntOrString                             `json:"targetPort,omitempty"`
 	Rules                   []admissionregistrationv1.RuleWithOperations    `json:"rules,omitempty"`
 	FailurePolicy           *admissionregistrationv1.FailurePolicyType      `json:"failurePolicy,omitempty"`
 	MatchPolicy             *admissionregistrationv1.MatchPolicyType        `json:"matchPolicy,omitempty"`
